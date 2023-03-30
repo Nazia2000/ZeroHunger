@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ZeroHungerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="EmployeeTable1">
+    <Key>
+      <PropertyRef Name="Employeeid" />
+    </Key>
+    <Property Name="Employeeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Employeename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="completedrequest" Type="Int32" Nullable="false" />
+    <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NGOid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="NGOTable1" Relationship="Self.FK_EmployeeTable1_EmployeeTable1" FromRole="EmployeeTable1" ToRole="NGOTable1" />
+  </EntityType>
+  <EntityType Name="FoodTable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Foodname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="foodamount" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Collectrequestid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RequestTable" Relationship="Self.FK_FoodTable_RequestTable" FromRole="FoodTable" ToRole="RequestTable" />
+  </EntityType>
+  <EntityType Name="NGOTable1">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="completedrequest" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EmployeeTable1" Relationship="Self.FK_EmployeeTable1_EmployeeTable1" FromRole="NGOTable1" ToRole="EmployeeTable1" />
+  </EntityType>
+  <EntityType Name="RequestTable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Restuarentid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FoodTables" Relationship="Self.FK_FoodTable_RequestTable" FromRole="RequestTable" ToRole="FoodTable" />
+    <NavigationProperty Name="RestuarentTable" Relationship="Self.FK_RequestTable_RestuarentTable" FromRole="RequestTable" ToRole="RestuarentTable" />
+  </EntityType>
+  <EntityType Name="RestuarentTable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Restuarentname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="RequestTable" Relationship="Self.FK_RequestTable_RestuarentTable" FromRole="RestuarentTable" ToRole="RequestTable" />
+  </EntityType>
+  <EntityType Name="LoginTable">
+    <Key>
+      <PropertyRef Name="userid" />
+      <PropertyRef Name="username" />
+      <PropertyRef Name="userpassword" />
+      <PropertyRef Name="usertype" />
+    </Key>
+    <Property Name="userid" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="userpassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usertype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_EmployeeTable1_EmployeeTable1">
+    <End Role="NGOTable1" Type="Self.NGOTable1" Multiplicity="1" />
+    <End Role="EmployeeTable1" Type="Self.EmployeeTable1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOTable1">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="EmployeeTable1">
+        <PropertyRef Name="NGOid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodTable_RequestTable">
+    <End Role="RequestTable" Type="Self.RequestTable" Multiplicity="1" />
+    <End Role="FoodTable" Type="Self.FoodTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RequestTable">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTable">
+        <PropertyRef Name="Collectrequestid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequestTable_RestuarentTable">
+    <End Role="RestuarentTable" Type="Self.RestuarentTable" Multiplicity="1" />
+    <End Role="RequestTable" Type="Self.RequestTable" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="RestuarentTable">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="RequestTable">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ZeroHungerEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="EmployeeTable1" EntityType="Self.EmployeeTable1" />
+    <EntitySet Name="FoodTables" EntityType="Self.FoodTable" />
+    <EntitySet Name="NGOTable1" EntityType="Self.NGOTable1" />
+    <EntitySet Name="RequestTables" EntityType="Self.RequestTable" />
+    <EntitySet Name="RestuarentTables" EntityType="Self.RestuarentTable" />
+    <EntitySet Name="LoginTables" EntityType="Self.LoginTable" />
+    <AssociationSet Name="FK_EmployeeTable1_EmployeeTable1" Association="Self.FK_EmployeeTable1_EmployeeTable1">
+      <End Role="NGOTable1" EntitySet="NGOTable1" />
+      <End Role="EmployeeTable1" EntitySet="EmployeeTable1" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodTable_RequestTable" Association="Self.FK_FoodTable_RequestTable">
+      <End Role="RequestTable" EntitySet="RequestTables" />
+      <End Role="FoodTable" EntitySet="FoodTables" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequestTable_RestuarentTable" Association="Self.FK_RequestTable_RestuarentTable">
+      <End Role="RestuarentTable" EntitySet="RestuarentTables" />
+      <End Role="RequestTable" EntitySet="RequestTables" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

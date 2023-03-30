@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ZeroHungerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EmployeeTable1">
+          <Key>
+            <PropertyRef Name="Employeeid" />
+          </Key>
+          <Property Name="Employeeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employeename" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="completedrequest" Type="int" Nullable="false" />
+          <Property Name="location" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NGOid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FoodTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Foodname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="foodamount" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Collectrequestid" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ZeroHunger.dbo.LoginTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LoginTable">
+          <Key>
+            <PropertyRef Name="userid" />
+            <PropertyRef Name="username" />
+            <PropertyRef Name="userpassword" />
+            <PropertyRef Name="usertype" />
+          </Key>
+          <Property Name="userid" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="userpassword" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="usertype" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NGOTable1">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="location" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="completedrequest" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequestTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Restuarentid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RestuarentTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Restuarentname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="location" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmployeeTable1_EmployeeTable1">
+          <End Role="NGOTable1" Type="Self.NGOTable1" Multiplicity="1" />
+          <End Role="EmployeeTable1" Type="Self.EmployeeTable1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGOTable1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EmployeeTable1">
+              <PropertyRef Name="NGOid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodTable_RequestTable">
+          <End Role="RequestTable" Type="Self.RequestTable" Multiplicity="1" />
+          <End Role="FoodTable" Type="Self.FoodTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FoodTable">
+              <PropertyRef Name="Collectrequestid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestTable_RestuarentTable">
+          <End Role="RestuarentTable" Type="Self.RestuarentTable" Multiplicity="1" />
+          <End Role="RequestTable" Type="Self.RequestTable" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RestuarentTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestTable">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZeroHungerModelStoreContainer">
+          <EntitySet Name="EmployeeTable1" EntityType="Self.EmployeeTable1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodTable" EntityType="Self.FoodTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NGOTable1" EntityType="Self.NGOTable1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestTable" EntityType="Self.RequestTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RestuarentTable" EntityType="Self.RestuarentTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoginTable" EntityType="Self.LoginTable" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LoginTable].[userid] AS [userid], 
+    [LoginTable].[username] AS [username], 
+    [LoginTable].[userpassword] AS [userpassword], 
+    [LoginTable].[usertype] AS [usertype]
+    FROM [dbo].[LoginTable] AS [LoginTable]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_EmployeeTable1_EmployeeTable1" Association="Self.FK_EmployeeTable1_EmployeeTable1">
+            <End Role="NGOTable1" EntitySet="NGOTable1" />
+            <End Role="EmployeeTable1" EntitySet="EmployeeTable1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodTable_RequestTable" Association="Self.FK_FoodTable_RequestTable">
+            <End Role="RequestTable" EntitySet="RequestTable" />
+            <End Role="FoodTable" EntitySet="FoodTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestTable_RestuarentTable" Association="Self.FK_RequestTable_RestuarentTable">
+            <End Role="RestuarentTable" EntitySet="RestuarentTable" />
+            <End Role="RequestTable" EntitySet="RequestTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZeroHungerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EmployeeTable1">
+          <Key>
+            <PropertyRef Name="Employeeid" />
+          </Key>
+          <Property Name="Employeeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employeename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="completedrequest" Type="Int32" Nullable="false" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NGOid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NGOTable1" Relationship="Self.FK_EmployeeTable1_EmployeeTable1" FromRole="EmployeeTable1" ToRole="NGOTable1" />
+        </EntityType>
+        <EntityType Name="FoodTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Foodname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="foodamount" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Collectrequestid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RequestTable" Relationship="Self.FK_FoodTable_RequestTable" FromRole="FoodTable" ToRole="RequestTable" />
+        </EntityType>
+        <EntityType Name="NGOTable1">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="completedrequest" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeTable1" Relationship="Self.FK_EmployeeTable1_EmployeeTable1" FromRole="NGOTable1" ToRole="EmployeeTable1" />
+        </EntityType>
+        <EntityType Name="RequestTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Restuarentid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FoodTables" Relationship="Self.FK_FoodTable_RequestTable" FromRole="RequestTable" ToRole="FoodTable" />
+          <NavigationProperty Name="RestuarentTable" Relationship="Self.FK_RequestTable_RestuarentTable" FromRole="RequestTable" ToRole="RestuarentTable" />
+        </EntityType>
+        <EntityType Name="RestuarentTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Restuarentname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="RequestTable" Relationship="Self.FK_RequestTable_RestuarentTable" FromRole="RestuarentTable" ToRole="RequestTable" />
+        </EntityType>
+        <EntityType Name="LoginTable">
+          <Key>
+            <PropertyRef Name="userid" />
+            <PropertyRef Name="username" />
+            <PropertyRef Name="userpassword" />
+            <PropertyRef Name="usertype" />
+          </Key>
+          <Property Name="userid" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userpassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usertype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmployeeTable1_EmployeeTable1">
+          <End Role="NGOTable1" Type="Self.NGOTable1" Multiplicity="1" />
+          <End Role="EmployeeTable1" Type="Self.EmployeeTable1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGOTable1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EmployeeTable1">
+              <PropertyRef Name="NGOid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodTable_RequestTable">
+          <End Role="RequestTable" Type="Self.RequestTable" Multiplicity="1" />
+          <End Role="FoodTable" Type="Self.FoodTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FoodTable">
+              <PropertyRef Name="Collectrequestid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestTable_RestuarentTable">
+          <End Role="RestuarentTable" Type="Self.RestuarentTable" Multiplicity="1" />
+          <End Role="RequestTable" Type="Self.RequestTable" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RestuarentTable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestTable">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZeroHungerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmployeeTable1" EntityType="Self.EmployeeTable1" />
+          <EntitySet Name="FoodTables" EntityType="Self.FoodTable" />
+          <EntitySet Name="NGOTable1" EntityType="Self.NGOTable1" />
+          <EntitySet Name="RequestTables" EntityType="Self.RequestTable" />
+          <EntitySet Name="RestuarentTables" EntityType="Self.RestuarentTable" />
+          <EntitySet Name="LoginTables" EntityType="Self.LoginTable" />
+          <AssociationSet Name="FK_EmployeeTable1_EmployeeTable1" Association="Self.FK_EmployeeTable1_EmployeeTable1">
+            <End Role="NGOTable1" EntitySet="NGOTable1" />
+            <End Role="EmployeeTable1" EntitySet="EmployeeTable1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodTable_RequestTable" Association="Self.FK_FoodTable_RequestTable">
+            <End Role="RequestTable" EntitySet="RequestTables" />
+            <End Role="FoodTable" EntitySet="FoodTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestTable_RestuarentTable" Association="Self.FK_RequestTable_RestuarentTable">
+            <End Role="RestuarentTable" EntitySet="RestuarentTables" />
+            <End Role="RequestTable" EntitySet="RequestTables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZeroHungerModelStoreContainer" CdmEntityContainer="ZeroHungerEntities">
+          <EntitySetMapping Name="EmployeeTable1">
+            <EntityTypeMapping TypeName="ZeroHungerModel.EmployeeTable1">
+              <MappingFragment StoreEntitySet="EmployeeTable1">
+                <ScalarProperty Name="Employeeid" ColumnName="Employeeid" />
+                <ScalarProperty Name="Employeename" ColumnName="Employeename" />
+                <ScalarProperty Name="completedrequest" ColumnName="completedrequest" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="NGOid" ColumnName="NGOid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodTables">
+            <EntityTypeMapping TypeName="ZeroHungerModel.FoodTable">
+              <MappingFragment StoreEntitySet="FoodTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Foodname" ColumnName="Foodname" />
+                <ScalarProperty Name="foodamount" ColumnName="foodamount" />
+                <ScalarProperty Name="Collectrequestid" ColumnName="Collectrequestid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NGOTable1">
+            <EntityTypeMapping TypeName="ZeroHungerModel.NGOTable1">
+              <MappingFragment StoreEntitySet="NGOTable1">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="completedrequest" ColumnName="completedrequest" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestTables">
+            <EntityTypeMapping TypeName="ZeroHungerModel.RequestTable">
+              <MappingFragment StoreEntitySet="RequestTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Restuarentid" ColumnName="Restuarentid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RestuarentTables">
+            <EntityTypeMapping TypeName="ZeroHungerModel.RestuarentTable">
+              <MappingFragment StoreEntitySet="RestuarentTable">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Restuarentname" ColumnName="Restuarentname" />
+                <ScalarProperty Name="location" ColumnName="location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoginTables">
+            <EntityTypeMapping TypeName="ZeroHungerModel.LoginTable">
+              <MappingFragment StoreEntitySet="LoginTable">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="userpassword" ColumnName="userpassword" />
+                <ScalarProperty Name="usertype" ColumnName="usertype" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

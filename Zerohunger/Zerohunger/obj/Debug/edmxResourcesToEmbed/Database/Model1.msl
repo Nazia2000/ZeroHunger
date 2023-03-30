@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ZeroHungerModelStoreContainer" CdmEntityContainer="ZeroHungerEntities">
+    <EntitySetMapping Name="EmployeeTable1">
+      <EntityTypeMapping TypeName="ZeroHungerModel.EmployeeTable1">
+        <MappingFragment StoreEntitySet="EmployeeTable1">
+          <ScalarProperty Name="Employeeid" ColumnName="Employeeid" />
+          <ScalarProperty Name="Employeename" ColumnName="Employeename" />
+          <ScalarProperty Name="completedrequest" ColumnName="completedrequest" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="NGOid" ColumnName="NGOid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FoodTables">
+      <EntityTypeMapping TypeName="ZeroHungerModel.FoodTable">
+        <MappingFragment StoreEntitySet="FoodTable">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Foodname" ColumnName="Foodname" />
+          <ScalarProperty Name="foodamount" ColumnName="foodamount" />
+          <ScalarProperty Name="Collectrequestid" ColumnName="Collectrequestid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NGOTable1">
+      <EntityTypeMapping TypeName="ZeroHungerModel.NGOTable1">
+        <MappingFragment StoreEntitySet="NGOTable1">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="completedrequest" ColumnName="completedrequest" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequestTables">
+      <EntityTypeMapping TypeName="ZeroHungerModel.RequestTable">
+        <MappingFragment StoreEntitySet="RequestTable">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Restuarentid" ColumnName="Restuarentid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RestuarentTables">
+      <EntityTypeMapping TypeName="ZeroHungerModel.RestuarentTable">
+        <MappingFragment StoreEntitySet="RestuarentTable">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Restuarentname" ColumnName="Restuarentname" />
+          <ScalarProperty Name="location" ColumnName="location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LoginTables">
+      <EntityTypeMapping TypeName="ZeroHungerModel.LoginTable">
+        <MappingFragment StoreEntitySet="LoginTable">
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="userpassword" ColumnName="userpassword" />
+          <ScalarProperty Name="usertype" ColumnName="usertype" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
